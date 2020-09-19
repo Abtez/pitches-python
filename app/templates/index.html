@@ -1,9 +1,5 @@
 {% extends 'base.html'%}
-{% import "bootstrap/wtf.html" as wtf %}
 
-{% block content  %}
-<div class="col-md-4">
-{{ wtf.quick_form(review_form) }}
- </div>
-
+{% block content %}
+<h2><a class="btn btn-success btn-lg text-center" href="/pitches/new_pitch"> Write a new pitch</a></h2>
 {% endblock  %}
