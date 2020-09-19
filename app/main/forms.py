@@ -4,7 +4,7 @@ from wtforms.validators import Required
 
 class ReviewForm(FlaskForm):
     category = SelectField('Category', choices=[('Marketing','Marketing'),('Promotional','Promotional'),('Scholarship','Scholarship')],validators=[Required()])
-    pitch = TextAreaField('Enter Pitch')
+    pitch = TextAreaField('Enter Pitch', validators=[Required()])
     submit = SubmitField('Submit')
     
 class CommentForm(FlaskForm):
