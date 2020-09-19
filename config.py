@@ -2,6 +2,7 @@ import os
 
 class Config:
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:Access@localhost/pitches'
+    SECRET_KEY = 'BDSFHEWFIUEDABJCVZMCbmDKJDjb'
     pass
 
 class TestConfig(Config):
