@@ -3,7 +3,7 @@ from . import main
 from .forms import ReviewForm
 from .. import db
 
-@main.route('/')
+@main.route('/',methods=['GET','POST'])
 def index():
     form = ReviewForm()
-    return render_template('index.html', location=str)
+    return render_template('index.html', review_form=form)
