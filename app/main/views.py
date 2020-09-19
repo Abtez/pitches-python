@@ -2,6 +2,7 @@ from flask import render_template,request,redirect,url_for,abort
 from . import main
 from .forms import ReviewForm, CommentForm
 from .. import db
+from flask_login import login_required
 
 @main.route('/')
 def index():
@@ -29,6 +30,7 @@ def scholar_pitches():
     return render_template('scholar.html')
 
 @main.route('/pitches/comments', methods=['GET','POST'])
+@login_required()
 def leave_comment():
     comment_form = CommentForm()
     if comment_form.validate_on_submit():
