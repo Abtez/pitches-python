@@ -15,3 +15,18 @@ def new_pitch():
         category = form.category.data
         pitch = form.pitch.data
     return render_template('new_pitch.html', review_form=form)
+
+@main.route('/pitches/marketing_pitches')
+def marketing_pitches():
+    return render_template('marketing.html')
+
+@main.route('/pitches/promotional_pitches')
+def promotion_pitches():
+    return render_template('promotion.html')
+
+@main.route('/pitches/scholarship_pitches')
+def scholar_pitches():
+    return render_template('scholar.html')
+
+
+    
