@@ -2,29 +2,50 @@
 
 {% block content %}
 
-<!-- Card -->
-<div class="card testimonial-card">
+<div class="container-fluid">
 
-  <!-- Background color -->
-  <div class="card-up indigo lighten-1"></div>
+<div class="row">
+    <div class="col-sm-6 col-md-4 col-lg-4">
 
-  <!-- Avatar -->
-  <div class="avatar mx-auto white">
-    <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%2810%29.jpg" class="rounded-circle"
-      alt="woman avatar">
+    <!-- Card -->
+<div class="card">
+
+  <!-- Card image -->
+  <div class="view overlay">
+    <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/food.jpg" alt="Card image cap">
+    <a>
+      <div class="mask rgba-white-slight"></div>
+    </a>
   </div>
 
-  <!-- Content -->
+  <!-- Card content -->
   <div class="card-body">
-    <!-- Name -->
-    <h4 class="card-title">Anna Doe</h4>
+
+    <!-- Title -->
+    <h4 class="card-title">User Name</h4>
     <hr>
-    <!-- Quotation -->
-    <p><i class="fas fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, adipisci
-    </p>
+    <!-- Text -->
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+      content.</p>
+
+  </div>
+
+  <!-- Card footer -->
+  <div class="rounded-bottom mdb-color lighten-3 text-center pt-3">
+    <ul class="list-unstyled list-inline font-small">
+      <li class="list-inline-item pr-2"><a href="/pitches/comments" class="white-text"><i
+            class="far fa-comments pr-1 fa-2x"></i>12 Coments</a></li>
+      <li class="list-inline-item pr-2"><a href="#" class="white-text"><i class="far fa-thumbs-up fa-2x"></i>21 Upvotes</a></li>
+      <li class="list-inline-item"><a href="#" class="white-text"><i class="far fa-thumbs-down fa-2x"></i>5 Downvotes</a></li>
+    </ul>
   </div>
 
 </div>
 <!-- Card -->
+        
+    </div>
+</div>
+    
+</div>
 
 {% endblock  %}

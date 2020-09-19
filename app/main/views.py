@@ -1,6 +1,6 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
-from .forms import ReviewForm
+from .forms import ReviewForm, CommentForm
 from .. import db
 
 @main.route('/')
@@ -27,6 +27,14 @@ def promotion_pitches():
 @main.route('/pitches/scholarship_pitches')
 def scholar_pitches():
     return render_template('scholar.html')
+
+@main.route('/pitches/comments', methods=['GET','POST'])
+def leave_comment():
+    comment_form = CommentForm()
+    if comment_form.validate_on_submit():
+        comment = comment_form.comment.data
+    return render_template('new_comment.html', comment_form=comment_form)
+    
 
 
     
