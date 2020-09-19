@@ -30,7 +30,7 @@ def scholar_pitches():
     return render_template('scholar.html')
 
 @main.route('/pitches/comments', methods=['GET','POST'])
-@login_required()
+@login_required
 def leave_comment():
     comment_form = CommentForm()
     if comment_form.validate_on_submit():
