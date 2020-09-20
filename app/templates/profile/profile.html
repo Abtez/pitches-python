@@ -2,31 +2,6 @@
 
 {% block content %}
 <div class="container">
-<div class="row">
-<!-- displaying  Username-->
-  <div class="col-md-4">
-    <h3> {{user.username| capitalize}} </h3>
-
-    <!--Displaying user bio-->
-  <div>
-      <p> {{user.username| capitalize}} has no pitches </p>
-      {% if user == current_user %}
-    <a href="{{url_for('main.update_profile',uname=user.username)}}">Edit profile</a>
-{% endif %}
-  </div>
-
-  <!--Display profile photo-->
-  <div class="col-md-4">
-
-    {% if user.profile_pic_path %}
-    <img src="{{url_for('static',filename=user.profile_pic_path)}}" alt="" class="img-thumbnail">
-    {%else%}
-    <p>{{user.username| capitalize}} has no profle picture</p>
-    {% endif %}
-  </div>
-</div>
-</div>
-
 
 <!-- News jumbotron -->
 <div class="jumbotron text-center hoverable p-4">
@@ -56,14 +31,19 @@
         <h3 class="h6 pb-1"><i class="fas fa-user-cog"></i> {{user.username| capitalize}} </h3>
       </a>
 
-      <h4 class="h4 mb-4">This is title of the news</h4>
+      <h4 class="h4 mb-4" style='text-decoration:underline;'>My Bio...</h4>
 
-      <p class="font-weight-normal">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque, totam
-        rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae
-        dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur.</p>
-      <p class="font-weight-normal">by <a><strong>Carine Fox</strong></a>, 19/08/2016</p>
+       {% if user.bio %}
 
-      <a href="{{url_for('main.bio_profile',uname=user.username)}}" class="btn btn-success">Edit Bio</a>
+      <p class="font-weight-normal">{{user.bio| capitalize}}</p>
+      {% else %}
+      <p class="font-weight-normal">You have No Bio.</p>
+
+       {% endif %}
+
+      <p class="font-weight-normal"><a><strong>Last Edit :</strong></a> 19/08/2016</p>
+
+      <a href="{{url_for('main.update_bio',uname=user.username)}}" class="btn btn-success">Edit Bio</a>
       <a href="{{url_for('main.update_profile',uname=user.username)}}" class="btn btn-success">New Pitch</a>
       <a class="btn btn-success">Change Profile Image</a>
 
@@ -76,5 +56,6 @@
 </div>
 <!-- News jumbotron -->
 
+</div>
 
 {% endblock %}

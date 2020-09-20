@@ -79,12 +79,12 @@ def update_bio(uname):
     if bioform.validate_on_submit():
         user.bio = bioform.bio.data
 
-        db.session.add(user.bio)
+        db.session.add(user)
         db.session.commit()
 
         return redirect(url_for('.profile',uname=user.username))
 
-    return render_template('profile/bio.html',form =bioform)
+    return render_template('profile/bio.html',bioform=bioform)
     
 
 
