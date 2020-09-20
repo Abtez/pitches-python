@@ -3,6 +3,7 @@ from . import main
 from .forms import ReviewForm, CommentForm
 from .. import db
 from flask_login import login_required
+from ..models import User,Pitch, Comment,Upvote,Downvote
 
 @main.route('/')
 def index():
@@ -36,6 +37,15 @@ def leave_comment():
     if comment_form.validate_on_submit():
         comment = comment_form.comment.data
     return render_template('new_comment.html', comment_form=comment_form)
+
+@main.route('/user/<uname>')
+def profile(uname):
+    user = User.query.filter_by(username = uname).first()
+
+    if user is None:
+        abort(404)
+
+    return render_template("profile/profile.html", user = user)
     
 
 
