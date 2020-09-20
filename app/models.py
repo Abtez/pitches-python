@@ -43,7 +43,8 @@ class Pitch(db.Model):
     comment = db.relationship('Comment',backref='pitch',lazy='dynamic')
     upvote = db.relationship('Upvote',backref='pitch',lazy='dynamic')
     downvote = db.relationship('Downvote',backref='pitch',lazy='dynamic')
-    category = db.Column(db.String(255), index = True,nullable = False)
+    category = db.Column(db.String(255), index = True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
     def save_pitch(self):
         db.session.add(self)

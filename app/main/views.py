@@ -1,6 +1,6 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
-from .forms import ReviewForm, CommentForm
+from .forms import PitchForm, CommentForm
 from .. import db
 from flask_login import login_required
 from ..models import User,Pitch, Comment,Upvote,Downvote
@@ -12,7 +12,7 @@ def index():
 
 @main.route('/pitches/new_pitch', methods=['GET','POST'])
 def new_pitch():
-    form = ReviewForm()
+    form = PitchForm()
     if form.validate_on_submit():
         category = form.category.data
         pitch = form.pitch.data
@@ -44,6 +44,17 @@ def profile(uname):
 
     if user is None:
         abort(404)
+        
+    form = PitchForm()
+
+    if form.validate_on_submit():
+        user.pitches = form.pitches.data
+
+        db.session.add(user)
+        db.session.commit()
+
+        return redirect(url_for('.profile',uname=user.username))
+
 
     return render_template("profile/profile.html", user = user)
     
