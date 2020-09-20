@@ -35,6 +35,13 @@ class Pitch(db.Model):
     downvote = db.relationship('Downvote',backref='pitch',lazy='dynamic')
     category = db.Column(db.String(255), index = True,nullable = False)
 
+class Comment(db.Model):
+    __tablename__ = 'comments' 
+    id = db.Column(db.Integer, primary_key = True)
+    pitch = db.Column(db.Text())
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    pitch_id = db.Column(db.Integer,db.ForeignKey('pitches.id'))
     
+       
     
     
