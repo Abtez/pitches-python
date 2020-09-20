@@ -1,6 +1,6 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
-from .forms import PitchForm, CommentForm
+from .forms import PitchForm, CommentForm, BioForm
 from .. import db
 from flask_login import login_required
 from ..models import User,Pitch, Comment,Upvote,Downvote
@@ -45,18 +45,46 @@ def profile(uname):
     if user is None:
         abort(404)
         
+    return render_template("profile/profile.html", user = user)
+
+@main.route('/user/<uname>/update',methods = ['GET','POST'])
+@login_required
+def update_profile(uname):
+    user = User.query.filter_by(username = uname).first()
+    if user is None:
+        abort(404)
+
     form = PitchForm()
 
     if form.validate_on_submit():
-        user.pitches = form.pitches.data
+        user.pitches = form.my_pitches.data
+        category = form.my_category.data
 
-        db.session.add(user)
+        db.session.add_al([user.pitches, category])
         db.session.commit()
 
         return redirect(url_for('.profile',uname=user.username))
 
+    return render_template('profile/update.html',form =form)
 
-    return render_template("profile/profile.html", user = user)
+@main.route('/user/<uname>/bio',methods = ['GET','POST'])
+@login_required
+def update_bio(uname):
+    user = User.query.filter_by(username = uname).first()
+    if user is None:
+        abort(404)
+
+    bioform = BioForm()
+
+    if bioform.validate_on_submit():
+        user.bio = bioform.bio.data
+
+        db.session.add(user.bio)
+        db.session.commit()
+
+        return redirect(url_for('.profile',uname=user.username))
+
+    return render_template('profile/bio.html',form =bioform)
     
 
 
