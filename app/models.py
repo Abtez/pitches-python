@@ -13,6 +13,7 @@ class User(db.Model,UserMixin):
     username = db.Column(db.String(255),unique=True,index=True)
     email = db.Column(db.String(255),unique = True,index = True)
     pass_secure  = db.Column(db.String(255))
+    pitches = db.relationship('Pitch',backref='user', lazy='dynamic')
     
     @property
     def password(self):
@@ -24,4 +25,16 @@ class User(db.Model,UserMixin):
         
     def verify_password(self,password):
         return check_password_hash(self.pass_secure,password)
+    
+class Pitch(db.Model):
+    __tablename__ = 'pitches'
+    id = db.Column(db.Integer, primary_key = True)
+    pitch = db.Column(db.Text())
+    comment = db.relationship('Comment',backref='pitch',lazy='dynamic')
+    upvote = db.relationship('Upvote',backref='pitch',lazy='dynamic')
+    downvote = db.relationship('Downvote',backref='pitch',lazy='dynamic')
+    category = db.Column(db.String(255), index = True,nullable = False)
+
+    
+    
     
