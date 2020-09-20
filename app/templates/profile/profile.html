@@ -14,7 +14,16 @@
 
       <!-- Featured image -->
       <div class="view overlay">
-        <img src="https://mdbootstrap.com/img/Photos/Others/laptop-sm.jpg" class="img-fluid" alt="Sample image for first version of blog listing">
+       {% if user.profile_pic_path %}
+
+        <img src="{{url_for('static',filename=user.profile_pic_path)}}" class="img-fluid" alt="Profile Image">
+        
+         {%else%}
+
+    <h3>You Have Not Set Any Profile Picture ! Choose File Then Submit.</h3>
+
+    {% endif %}
+
         <a>
           <div class="mask rgba-white-slight"></div>
         </a>
@@ -45,8 +54,13 @@
 
       <a href="{{url_for('main.update_bio',uname=user.username)}}" class="btn btn-success">Edit Bio</a>
       <a href="{{url_for('main.update_profile',uname=user.username)}}" class="btn btn-success">New Pitch</a>
-      <a class="btn btn-success">Change Profile Image</a>
-
+     
+      {% if user == current_user %}
+        <form  action="{{url_for('main.update_pic',uname=user.username)}}" method="post" enctype = "multipart/form-data">
+      <input type="file"  name="photo" class="form-group" required><br>
+      <input class='form-group' type='submit'>
+      </form>
+      {% endif %}
     </div>
     <!-- Grid column -->
 
@@ -55,6 +69,58 @@
 
 </div>
 <!-- News jumbotron -->
+
+<h2 class='text-center' style='text-decoration:underline;'>My Pitches</h2>
+
+{% if user.my_pitch %}
+
+<div class="row">
+    <div class="col-sm-6 col-md-4 col-lg-4">
+
+    <!-- Card -->
+<div class="card">
+
+  <!-- Card image -->
+  <div class="view overlay">
+    <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/food.jpg" alt="Card image cap">
+    <a>
+      <div class="mask rgba-white-slight"></div>
+    </a>
+  </div>
+
+  <!-- Card content -->
+  <div class="card-body">
+
+    <!-- Title -->
+    <h3 class="card-title" style='text-decoration:underline;'> {{user.username| capitalize}} </h3>
+    <h5 class="card-title">Category :  </h5>
+    <hr>
+    <!-- Text -->
+    <p class="card-text">{{user.my_pitch}}</p>
+
+  </div>
+
+  <!-- Card footer -->
+  <div class="rounded-bottom mdb-color lighten-3 text-center pt-3">
+    <ul class="list-unstyled list-inline font-small">
+      <li class="list-inline-item pr-2"><a href="/pitches/comments" class="white-text"><i
+            class="far fa-comments pr-1 fa-2x"></i>12 Coments</a></li>
+      <li class="list-inline-item pr-2"><a href="#" class="white-text"><i class="far fa-thumbs-up fa-2x"></i>21 Likes</a></li>
+      <li class="list-inline-item"><a href="#" class="white-text"><i class="far fa-thumbs-down fa-2x"></i>5 Dislikes</a></li>
+    </ul>
+  </div>
+
+</div>
+<!-- Card -->
+        
+</div>
+</div>
+
+{% else%}
+
+  <h4 class='text-center'>You has no pitches </h4>
+
+  {% endif %}
 
 </div>
 

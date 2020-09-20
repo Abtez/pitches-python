@@ -1,7 +1,7 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
 from .forms import PitchForm, CommentForm, BioForm
-from .. import db
+from .. import db,photos
 from flask_login import login_required
 from ..models import User,Pitch, Comment,Upvote,Downvote
 
@@ -47,20 +47,21 @@ def profile(uname):
         
     return render_template("profile/profile.html", user = user)
 
-@main.route('/user/<uname>/update',methods = ['GET','POST'])
+@main.route('/user/<uname>/pitches',methods = ['GET','POST'])
 @login_required
 def update_profile(uname):
     user = User.query.filter_by(username = uname).first()
+    
     if user is None:
         abort(404)
 
     form = PitchForm()
 
     if form.validate_on_submit():
-        user.pitches = form.my_pitches.data
-        category = form.my_category.data
+        user.my_pitch = form.my_pitches.data
+        #category = form.my_category.data
 
-        db.session.add_al([user.pitches, category])
+        db.session.add(user)
         db.session.commit()
 
         return redirect(url_for('.profile',uname=user.username))
@@ -85,6 +86,17 @@ def update_bio(uname):
         return redirect(url_for('.profile',uname=user.username))
 
     return render_template('profile/bio.html',bioform=bioform)
+
+@main.route('/user/<uname>/update/pic',methods= ['POST'])
+@login_required
+def update_pic(uname):
+    user = User.query.filter_by(username = uname).first()
+    if 'photo' in request.files:
+        filename = photos.save(request.files['photo'])
+        path = f'photos/{filename}'
+        user.profile_pic_path = path
+        db.session.commit()
+    return redirect(url_for('main.profile',uname=uname))
     
 
 
