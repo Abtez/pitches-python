@@ -43,18 +43,24 @@ def scholar_pitches():
     scholarship = Pitch.query.filter_by(category='Scholarship').all()
     return render_template('scholar.html',scholarship=scholarship)
 
-@main.route('/pitches/comments', methods=['GET','POST'])
+@main.route('/pitches/comments/<uname>/<int:pitch_id>', methods=['GET','POST'])
 @login_required
-def leave_comment():
+def leave_comment(pitch_id,uname):
+    user = User.query.filter_by(username = uname).first()
     comment_form = CommentForm()
+    pitches = Pitch.query.get(pitch_id)
+    comment = Comment.query.filter_by(pitch_id=pitch_id).all()
     if comment_form.validate_on_submit():
         comments = comment_form.comment.data
-        new_comment= Comment(comments=comments,)
-        new_comment.save_comment()
         
-        return redirect(url_for('.index',comment_form=comment_form))
+        pitch_id= pitch_id
+        user_id = current_user._get_current_object().id
+        new_comment= Comment(comments=comments,pitch_id=pitch_id, user_id=user_id)
+        new_comment.save_comment()      
         
-    return render_template('new_comment.html', comment_form=comment_form,comments=comments)
+        return redirect(url_for('.index',comment_form=comment_form,pitch_id=pitch_id,user=user))
+        
+    return render_template('new_comment.html',comment_form=comment_form, comment=comment,pitch_id=pitch_id,user=user)
 
 @main.route('/user/<uname>')
 def profile(uname):

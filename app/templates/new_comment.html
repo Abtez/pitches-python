@@ -7,15 +7,32 @@
     <div class="col-md-12">
 {{ wtf.quick_form(comment_form) }}
  </div>
+ </div>
 
  <hr>
  <br>
- <p class='text-center'>Comments</h2>
- <blockquote class="blockquote">
-  <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-  <footer class="blockquote-footer mb-3">Someone famous in <cite title="Source Title">Source Title</cite></footer>
+
+<div class="container">
+
+ <h2 class='text-center' style='text-decoration:underline;'>Comments</h2>
+
+
+{% for items in comment %}
+
+<blockquote class="blockquote">
+  <p class="mb-0">{{items.comments}}</p>
+  {% if user == current_user %}
+   <footer class="blockquote-footer mb-3"><cite title="Source Title">{{user.username}}</cite></footer>
 </blockquote>
+  {% endif %}
+ 
+
+<hr>
+
+{% endfor %}
+
 </div>
+ 
 
 
 
