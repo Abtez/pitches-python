@@ -1,1 +1,58 @@
 {% extends 'base.html'%}
+
+{% block content %}
+
+{% for items in pitches %}
+
+<br>
+<div class="row">
+    <div class="col-sm-6 col-md-4 col-lg-4">
+
+    <!-- Card -->
+
+<div class="card">
+
+  <!-- Card image -->
+  <div class="view overlay">
+    <a>
+      <div class="mask rgba-white-slight"></div>
+    </a>
+  </div>
+
+  <!-- Card content -->
+  <div class="card-body">
+
+    <!-- Title -->
+    {% if user == current_user %}
+    <h3 class="card-title" style='text-decoration:underline;'> {{user.username| capitalize}} </h3>
+    {% endif %}
+    <h5 class="card-title">Category : {{items.category}} </h5>
+    <hr>
+    <!-- Text -->
+    <p class="card-text">{{items.pitch}}</p>
+
+  </div>
+
+  <!-- Card footer -->
+  <div class="rounded-bottom bg-secondary lighten-3 text-center pt-3">
+    <ul class="list-unstyled list-inline font-small">
+      <li class="list-inline-item pr-2"><a href="/pitches/comments" class="white-text"><i
+            class="far fa-comments pr-1 fa-2x"></i>12 Coments</a></li>
+      <li class="list-inline-item pr-2"><a href="#" class="white-text"><i class="far fa-thumbs-up fa-2x"></i>21 Likes</a></li>
+      <li class="list-inline-item"><a href="#" class="white-text"><i class="far fa-thumbs-down fa-2x"></i>5 Dislikes</a></li>
+    </ul>
+  </div>
+
+</div>
+<!-- Card -->
+        
+</div>
+</div>
+
+<br>
+
+</div>
+
+{% endfor %}
+
+{% endblock  %}

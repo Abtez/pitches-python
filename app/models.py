@@ -2,6 +2,7 @@ from . import db
 from werkzeug.security import generate_password_hash,check_password_hash
 from . import login_manager
 from flask_login import UserMixin
+from datetime import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -16,10 +17,10 @@ class User(db.Model,UserMixin):
     bio = db.Column(db.String(255))
     my_pitch = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
-    pitches = db.relationship('Pitch',backref='user', lazy='dynamic')
-    comments = db.relationship('Comment', backref='user', lazy='dynamic')
-    upvote = db.relationship('Upvote',backref='user',lazy='dynamic')
-    downvote = db.relationship('Downvote',backref='user',lazy='dynamic')
+    posted = db.Column(db.DateTime,default=datetime.utcnow)
+    pitches = db.relationship('Pitch',backref='pitches', lazy='dynamic')
+    upvote = db.relationship('Upvote',backref='upvotes',lazy='dynamic')
+    downvote = db.relationship('Downvote',backref='downvotes',lazy='dynamic')
     
     @property
     def password(self):
@@ -43,24 +44,23 @@ class Pitch(db.Model):
     __tablename__ = 'pitches'
     id = db.Column(db.Integer, primary_key = True)
     pitch = db.Column(db.Text())
-    comment = db.relationship('Comment',backref='pitch',lazy='dynamic')
-    upvote = db.relationship('Upvote',backref='pitch',lazy='dynamic')
-    downvote = db.relationship('Downvote',backref='pitch',lazy='dynamic')
     category = db.Column(db.String(255), index = True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    posted = db.Column(db.DateTime,default=datetime.utcnow)
     
     def save_pitch(self):
         db.session.add(self)
         db.session.commit()
         
-    def __repr__(self):
-        return f'Pitch{self.pitch}'
+    @classmethod
+    def get_pitches(cls,id):
+        pitches = Pitch.query.filter_by(user_id=id).all()
+        return pitches
 
 class Comment(db.Model):
     __tablename__ = 'comments' 
     id = db.Column(db.Integer, primary_key = True)
     comments = db.Column(db.Text())
-    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     pitch_id = db.Column(db.Integer,db.ForeignKey('pitches.id'))
     
     def save_comment(self):

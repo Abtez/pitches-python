@@ -2,7 +2,7 @@ from flask import render_template,request,redirect,url_for,abort
 from . import main
 from .forms import PitchForm, CommentForm, BioForm
 from .. import db,photos
-from flask_login import login_required
+from flask_login import login_required,current_user
 from ..models import User,Pitch, Comment,Upvote,Downvote
 
 @main.route('/')
@@ -10,33 +10,51 @@ def index():
    
     return render_template('index.html')
 
-@main.route('/pitches/new_pitch', methods=['GET','POST'])
+@main.route('/new_pitch', methods=['GET','POST'])
+@login_required
 def new_pitch():
     form = PitchForm()
     if form.validate_on_submit():
-        category = form.category.data
-        pitch = form.pitch.data
+        pitch = form.my_pitches.data
+        category = form.my_category.data
+        user_id = current_user     
+        new_pitch=Pitch(pitch=pitch,category=category,user_id=current_user._get_current_object().id)
+        
+        new_pitch.save_pitch()
+        return redirect(url_for('.index'))
+        
     return render_template('new_pitch.html', review_form=form)
 
 @main.route('/pitches/marketing_pitches')
 def marketing_pitches():
-    return render_template('marketing.html')
+    pich = Pitch.query.all()
+    marketing = Pitch.query.filter_by(category='Marketing').all()
+    return render_template('marketing.html',marketing=marketing)
 
 @main.route('/pitches/promotional_pitches')
 def promotion_pitches():
-    return render_template('promotion.html')
+    pich = Pitch.query.all()
+    promotional = Pitch.query.filter_by(category='Promotional').all()
+    return render_template('promotion.html',promotional=promotional)
 
 @main.route('/pitches/scholarship_pitches')
 def scholar_pitches():
-    return render_template('scholar.html')
+    pich = Pitch.query.all()
+    scholarship = Pitch.query.filter_by(category='Scholarship').all()
+    return render_template('scholar.html',scholarship=scholarship)
 
 @main.route('/pitches/comments', methods=['GET','POST'])
 @login_required
 def leave_comment():
     comment_form = CommentForm()
     if comment_form.validate_on_submit():
-        comment = comment_form.comment.data
-    return render_template('new_comment.html', comment_form=comment_form)
+        comments = comment_form.comment.data
+        new_comment= Comment(comments=comments,)
+        new_comment.save_comment()
+        
+        return redirect(url_for('.index',comment_form=comment_form))
+        
+    return render_template('new_comment.html', comment_form=comment_form,comments=comments)
 
 @main.route('/user/<uname>')
 def profile(uname):
@@ -59,12 +77,12 @@ def update_profile(uname):
 
     if form.validate_on_submit():
         user.my_pitch = form.my_pitches.data
-        #category = form.my_category.data
+        category = form.my_category.data
 
         db.session.add(user)
         db.session.commit()
 
-        return redirect(url_for('.profile',uname=user.username))
+        return redirect(url_for('.profile',uname=user.username,category=category))
 
     return render_template('profile/update.html',form =form)
 
@@ -97,7 +115,11 @@ def update_pic(uname):
         user.profile_pic_path = path
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
-    
 
-
+@main.route('/pitches')
+def pitch_page():    
+    user = User.query.all()
+    pitches = Pitch.query.all()
+    user=current_user
+    return render_template('pitches.html',pitches=pitches,user=user)
     
