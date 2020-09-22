@@ -4,9 +4,10 @@
 
 {% for items in pitches %}
 
+<div class='container'>
 <br>
 <div class="row">
-    <div class="col-sm-6 col-md-4 col-lg-4">
+    <div class="col-sm-8 col-md-6 col-lg-7">
 
     <!-- Card -->
 
@@ -14,6 +15,15 @@
 
   <!-- Card image -->
   <div class="view overlay">
+   {% if user.profile_pic_path %}
+
+        <img src="{{url_for('static',filename=user.profile_pic_path)}}" class="img-fluid" alt="Profile Image">
+        
+         {%else%}
+
+    <h3>You Have Not Set Any Profile Picture ! Choose File Then Submit.</h3>
+
+    {% endif %}
     <a>
       <div class="mask rgba-white-slight"></div>
     </a>
@@ -23,22 +33,21 @@
   <div class="card-body">
 
     <!-- Title -->
-    {% if user == current_user %}
-    <h3 class="card-title" style='text-decoration:underline;'> {{user.username| capitalize}} </h3>
-    {% endif %}
-    <h5 class="card-title">Category : {{items.category}} </h5>
+    <h4 class="card-title">  {{items.pitch}} </h4>
+    <hr>
+    <h6 class="card-title">Category : {{items.category}} </h6>
     <hr>
     <!-- Text -->
-    <p class="card-text">{{items.pitch}}</p>
+    <p class="card-text" style='text-decoration:underline;'>Posted By : {{items.author.username| capitalize}}</p>
 
   </div>
 
   <!-- Card footer -->
   <div class="rounded-bottom bg-secondary lighten-3 text-center pt-3">
     <ul class="list-unstyled list-inline font-small">
-      <li class="list-inline-item pr-2"><a href="{{url_for('main.leave_comment', uname = user.username, pitch_id = items.id)}}" class="white-text"><i
+      <li class="list-inline-item pr-2"><a href="{{url_for('main.leave_comment', pitch_id = items.id)}}" class="white-text"><i
             class="far fa-comments pr-1 fa-2x"></i> Coments</a></li>
-      <li class="list-inline-item pr-2"><a href="#" class="white-text"><i class="far fa-thumbs-up fa-2x"></i>21 Likes</a></li>
+      <li class="list-inline-item pr-2"><a href="{{increment}}" class="white-text"><i class="far fa-thumbs-up fa-2x"></i>{{items.like}} Likes</a></li>
       <li class="list-inline-item"><a href="#" class="white-text"><i class="far fa-thumbs-down fa-2x"></i>5 Dislikes</a></li>
     </ul>
   </div>
@@ -54,5 +63,7 @@
 </div>
 
 {% endfor %}
+
+</div>
 
 {% endblock  %}

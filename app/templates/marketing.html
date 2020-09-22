@@ -4,6 +4,7 @@
 
 <div class="container-fluid">
 
+{% for items in marketing %}
 <div class="row">
     <div class="col-sm-6 col-md-4 col-lg-4">
 
@@ -12,7 +13,7 @@
 
   <!-- Card image -->
   <div class="view overlay">
-    <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/food.jpg" alt="Card image cap">
+    <img class="card-img-top" src="{{ items.author.profile_pic_path }}" alt="Card image cap">
     <a>
       <div class="mask rgba-white-slight"></div>
     </a>
@@ -22,11 +23,10 @@
   <div class="card-body">
 
     <!-- Title -->
-    <h4 class="card-title">User Name</h4>
+    <h4 class="card-title">{{ items.author.username| capitalize }}</h4>
     <hr>
     <!-- Text -->
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-      content.</p>
+    <p class="card-text">{{ items.pitch }}</p>
 
   </div>
 
@@ -43,8 +43,9 @@
 </div>
 <!-- Card -->
         
-    </div>
 </div>
+</div>
+{% endfor %}
     
 </div>
 

@@ -21,10 +21,8 @@
 
 <blockquote class="blockquote">
   <p class="mb-0">{{items.comments}}</p>
-  {% if user == current_user %}
-   <footer class="blockquote-footer mb-3"><cite title="Source Title">{{user.username}}</cite></footer>
+   <footer class="blockquote-footer mb-3"><cite title="Source Title">{{items.user_id}}</cite></footer>
 </blockquote>
-  {% endif %}
  
 
 <hr>
