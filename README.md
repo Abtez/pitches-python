@@ -38,7 +38,7 @@ This web app allows a user to view different pitc categories, create new pitch i
 
 ### Live Link
 
-Or you can access the web application directly via this [LIVE LINK]().
+Or you can access the web application directly via this [LIVE LINK](https://pitch-to-speech.herokuapp.com/).
 
 ******
 
