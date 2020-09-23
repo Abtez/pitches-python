@@ -20,7 +20,7 @@
         
          {%else%}
 
-    <h3>You Have Not Set Any Profile Picture ! Choose File Then Submit.</h3>
+    <h5>You Have Not Set Any Profile Picture ! Choose File Then Submit.</h6>
 
     {% endif %}
 
@@ -70,62 +70,48 @@
 </div>
 <!-- News jumbotron -->
 
-<h2 class='text-center' style='text-decoration:underline;'>My Pitches</h2>
+<h2 class='amber-text' style='text-decoration:underline;'>My Pitches</h2>
  {% if current_user %}
-{% for items in pitch %}
+{% for items in pitch[::-1] %}
 
-<div class="row">
-    <div class="col-sm-6 col-md-4 col-lg-4">
-
-    <!-- Card -->
-<div class="card">
+<div class="container">
+  <div class='row'>
+  <div class='col-sm-9 col-md-9 col-lg-9'>
+  
+<!-- Card -->
+<div class="card card-cascade wider">
 
   <!-- Card image -->
-  <div class="view overlay">
-     {% if user.profile_pic_path ==  current_user %}
+  <div class="view view-cascade gradient-card-header peach-gradient">
 
-        <img src="{{url_for('static',filename=user.profile_pic_path)}}" class="img-fluid" alt="Profile Image">
-        
-         {%else%}
+    <!-- Title -->
+    <h2 class="card-header-title text-center mb-3">{{items.author.username| capitalize}}</h2>
+    <!-- Text -->
+    <p class="text-center mb-0"><i class="fas fa-calendar mr-2"></i>{{items.posted.strftime('%Y-%m-%d')}}</p>
+    <p class="text-center mb-0"><i class="fas fa-list mr-2"></i>{{items.category}}</p>
 
-    <h3>You Have Not Set Any Profile Picture !</h3>
-
-    {% endif %}
-    <a>
-      <div class="mask rgba-white-slight"></div>
-    </a>
   </div>
 
   <!-- Card content -->
-  
-  <div class="card-body">
+  <div class="card-body card-body-cascade text-center">
 
-    <!-- Title -->
-    <h3 class="card-title" style='text-decoration:underline;'> {{items.author.username| capitalize}} </h3>
-    
-    <h5 class="card-title">Category :{{items.category}}  </h5>
-    <hr>
     <!-- Text -->
-    <p class="card-text">{{items.pitch}}</p>
+    <h4 class="card-text text-dark">{{items.pitch}}</h4>
+    <!-- Link -->
+    <a href="{{url_for('main.leave_comment', pitch_id = items.id)}}" class="orange-text d-flex flex-row-reverse p-2">
+      <h5 class="waves-effect waves-light">Comments<i class="far fa-comments ml-2"></i></h5>
+    </a>
 
   </div>
-
-  <!-- Card footer -->
-  <div class="rounded-bottom mdb-color lighten-3 text-center pt-3">
-    <ul class="list-unstyled list-inline font-small">
-      <li class="list-inline-item pr-2"><a href="/pitches/comments" class="white-text"><i
-            class="far fa-comments pr-1 fa-2x"></i>Coments</a></li>
-      <li class="list-inline-item pr-2"><a href="#" class="white-text"><i class="far fa-thumbs-up fa-2x"></i>21 Likes</a></li>
-      <li class="list-inline-item"><a href="#" class="white-text"><i class="far fa-thumbs-down fa-2x"></i>5 Dislikes</a></li>
-    </ul>
-  </div>
+  <!-- Card content -->
 
 </div>
 <!-- Card -->
-        
-</div>
-</div>
 
+</div>
+</div>
+</div>
+<br>
 {% else%}
 
   <h4 class='text-center'>You have no pitches </h4>

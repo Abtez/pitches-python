@@ -21,7 +21,18 @@ def new_pitch():
         new_pitch=Pitch(pitch=pitch,category=category,user_id=current_user.id)
         
         new_pitch.save_pitch()
-        return redirect(url_for('.index'))
+        
+        if category == 'Marketing' :
+            return redirect(url_for('main.marketing_pitches'))
+        
+        elif category == 'Promotional':
+            return redirect(url_for('main.promotion_pitches'))
+        
+        elif category == 'Scholarship':
+            return redirect(url_for('main.scholar_pitches'))
+        
+        else:
+            return redirect(url_for('.index'))
         
     return render_template('new_pitch.html', review_form=form)
 
@@ -57,7 +68,7 @@ def leave_comment(pitch_id):
         new_comment= Comment(comments=comments,pitch_id=pitch_id, user_id=user_id)
         new_comment.save_comment()      
         
-        return redirect(url_for('.index',comment_form=comment_form,pitch_id=pitch_id))
+        return redirect(url_for('main.pitch_page',comment_form=comment_form,pitch_id=pitch_id))
         
     return render_template('new_comment.html',comment_form=comment_form, comment=comment,pitch_id=pitch_id)
 
